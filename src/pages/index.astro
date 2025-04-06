@@ -1,16 +1,45 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
+import logoSrc from "../assets/logo.png";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <div class="hero bg-base-200 -mt-16 min-h-screen">
+    <div class="hero-content w-full flex-col justify-evenly lg:flex-row">
+      <div class="flex flex-col items-center pt-5">
+        <img src={logoSrc.src} width="250" />
+
+        <div class="flex gap-3">
+          <a href="/wo" class="btn btn-primary">Vorbeikommen</a>
+          <a
+            href="https://wiki.openlab-augsburg.de/de/Mitglieder/mitglied-werden"
+            class="btn btn-soft"
+          >
+            Mitglied werden
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:max-w-1/2">
+        <h2>Willkommen im OpenLab Augsburg!</h2>
+
+        Hier treffen sich findige Köpfe, Technikbegeisterte und handwerklich
+        Interessierte, um gemeinsam Projekte zu verwirklichen.
+
+        <p>
+          Unser Ziel ist es, eine Plattform für interkulturellen Austausch,
+          selbstbestimmte Bildung und kreative Entfaltung zu schaffen.
+        </p>
+
+        Egal ob du etwas Neues lernen, dein Wissen teilen oder einfach etwas
+        ausprobieren möchtest - bei uns bist du genau richtig!
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>

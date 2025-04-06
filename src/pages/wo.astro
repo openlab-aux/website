@@ -1,0 +1,83 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "leaflet/dist/leaflet.css";
+
+import { SpaceStatus } from "@aumetra/hackspace-status-svelte";
+---
+
+<Layout title="Wo?!">
+  <div class="m-auto w-11/12 max-w-prose">
+    <h2>Komm gern einfach mal vorbei!</h2>
+
+    <div id="map" class="rounded-box h-96 shadow-xl"></div>
+
+    <div class="card bg-base-200 my-5 w-full">
+      <div
+        class="card-body flex-col place-items-center justify-evenly gap-0 shadow-xl sm:flex-row"
+      >
+        <address>
+          Bäckergasse 32
+          <br />86150 Augsburg
+          <br />Bayern, Germany
+        </address>
+
+        <div class="divider sm:divider-horizontal"></div>
+
+        <div>
+          <a href="https://wiki.openlab-augsburg.de/Space/Infrastruktur/chat">
+            Öffentlicher Chat
+          </a>
+          <br />Telefon: <a href="tel:+4982157089944">0821 570 899 44</a>
+          <br />Email: kontakt [at] openlab-augsburg.de
+        </div>
+
+        <div class="divider sm:divider-horizontal"></div>
+
+        <div class="not-prose">
+          <SpaceStatus
+            client:load
+            apiUrl="https://api.openlab-augsburg.de/13"
+            interval={60_000}
+          />
+        </div>
+      </div>
+    </div>
+
+    <small> Eingetragen am Amtsgericht Augsburg, VR 201371. </small>
+  </div>
+</Layout>
+
+<script>
+  import {
+    icon,
+    map,
+    marker,
+    latLng,
+    tileLayer,
+    type MapOptions,
+  } from "leaflet";
+  import markerImage from "leaflet/dist/images/marker-icon.png";
+
+  const olCoords = latLng(48.36263, 10.90261);
+  const options: MapOptions = {
+    center: olCoords,
+    zoom: 15,
+  };
+
+  const olMap = map("map", options);
+  tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(olMap);
+
+  const markerIcon = icon({
+    iconUrl: markerImage.src,
+    iconAnchor: [12, 41],
+  });
+
+  marker(olCoords)
+    .setIcon(markerIcon)
+    .addTo(olMap)
+    .on("click", () => {
+      window.open("https://www.openstreetmap.org/node/2290200189");
+    });
+</script>

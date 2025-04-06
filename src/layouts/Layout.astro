@@ -1,0 +1,48 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+}
+
+const BASE_TITLE = "OpenLab Augsburg";
+
+let { title } = Astro.props;
+
+title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav class="navbar bg-base-100 sticky z-50 w-screen shadow-sm">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl" href="/"
+          >OpenLab <span class="max-sm:hidden">Augsburg</span></a
+        >
+      </div>
+      <div class="flex-none px-3">
+        <a class="btn btn-ghost" href="/wo">Wo?!</a>
+        <a class="btn btn-ghost" href="/satzung">Satzung</a>
+        <a class="btn btn-ghost" href="https://wiki.openlab-augsburg.de">Wiki</a
+        >
+      </div>
+    </nav>
+
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>
