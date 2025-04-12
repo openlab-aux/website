@@ -1,0 +1,77 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import directusClient from "../../util/directus";
+import { readItem, readItems } from "@directus/sdk";
+import { DIRECTUS_URL } from "astro:env/server";
+import { Icon } from "astro-icon/components";
+import { DateTime } from "luxon";
+import markdownIt from "markdown-it"
+
+export const getStaticPaths = async () => {
+  return await directusClient.request(
+    readItems("Calendar", {
+      filter: {
+        status: { _eq: "published" },
+      },
+    }),
+  ).then((events) => {
+    return events.map((event) => {
+      return {
+        'params': { 'eventId': event.id }
+      }
+    })
+  })
+};
+
+const { eventId } = Astro.params;
+
+const event = await directusClient.request(
+  readItem("Calendar", eventId),
+);
+
+function renderDate(iso: string, locale: string) {
+  return DateTime.
+    fromISO(iso).
+    setLocale(locale).
+    toLocaleString(DateTime.DATETIME_FULL)
+}
+
+const md = markdownIt({linkify: true})
+
+---
+
+<Layout title="">
+  <div class="m-auto w-11/12 max-w-prose">
+    <img 
+      src={`${DIRECTUS_URL}/assets/${event.image}`} 
+      class="rounded-xl max-h-[250px] w-full object-cover"
+    />
+
+    <h1>{event.title}</h1>
+
+    <div class="grid grid-cols-[1fr_2fr_3fr] w-3/4 m-auto content-center items-start">
+      <Icon name="mdi:calendar" size={30}></Icon>
+      <strong class="">Beginn</strong>
+      <div>{ renderDate(event.starts_at, 'de') }</div>
+      { event.ends_at && (
+        <div />
+        <strong>Ende</strong>
+        <div>{renderDate(event.ends_at, 'de')}</div>
+      )}
+      <Icon name="mdi:map-marker" size={30}></Icon>
+      <strong>Ort</strong>
+      <div>{event.location}</div>
+      <Icon name="mdi:earth" size={30}></Icon>
+      <strong>Öffentlich</strong>
+      <div>{event.public ? "Ja" : "Nein"}</div>
+    </div>
+
+    <div set:html={md.render(event.description)}></div>
+
+
+    
+
+ </div>
+
+</Layout>
