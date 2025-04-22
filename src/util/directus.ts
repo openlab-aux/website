@@ -11,6 +11,7 @@ export interface Calendar {
   public: boolean
   starts_at: string
   ends_at: string
+  url?: string
 }
 
 export interface Schema {

@@ -18,29 +18,29 @@ const md = markdownIt({
   linkify: true
 })
 
-console.log(events)
-
 ---
 
 <Layout>
-  <div class="m-auto w-11/12 max-w-prose">
+  <div class="m-auto w-11/12 max-w-prose my-10">
     <h1>Kalender</h1>
-    { events.map((event) => (
-      <div class="card bg-base-100 image-full w-96 shadow-xl not-prose">
-        <figure>
-          <img
-            src={`${DIRECTUS_URL}/assets/${event.image}`}
-            alt="flavor pic" />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">{event.title}</h2>
-          <p>{ DateTime.fromISO(event.starts_at).setLocale('de').toRelative() }</p>
-          <p set:html={md.render(event.description)}></p>
-          <div class="card-actions justify-end">
-            <a href={`/events/${event.id}`} class="btn btn-primary">Mehr Infos</a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      { events.map((event) => (
+        <div class="card bg-base-100 image-full w-full shadow-xl not-prose">
+          <figure>
+            <img
+              src={`${DIRECTUS_URL}/assets/${event.image}`}
+              alt="flavor pic" />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">{event.title}</h2>
+            <p>{ DateTime.fromISO(event.starts_at).setLocale('de').toRelative() }</p>
+            <p set:html={md.render(event.description)}></p>
+            <div class="card-actions justify-end">
+              <a href={`/events/${event.id}`} class="btn btn-primary">Mehr Infos</a>
+            </div>
           </div>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </Layout>

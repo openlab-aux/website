@@ -7,6 +7,7 @@ import { DIRECTUS_URL } from "astro:env/server";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import markdownIt from "markdown-it"
+import { linear } from "svelte/easing";
 
 export const getStaticPaths = async () => {
   return await directusClient.request(
@@ -41,8 +42,8 @@ const md = markdownIt({linkify: true})
 
 ---
 
-<Layout title="">
-  <div class="m-auto w-11/12 max-w-prose">
+<Layout title="OpenLab Augsburg e.V. - Event">
+  <div class="m-auto w-11/12 max-w-prose mb-10">
     <img 
       src={`${DIRECTUS_URL}/assets/${event.image}`} 
       class="rounded-xl max-h-[250px] w-full object-cover"
@@ -50,27 +51,38 @@ const md = markdownIt({linkify: true})
 
     <h1>{event.title}</h1>
 
-    <div class="grid grid-cols-[1fr_2fr_3fr] w-3/4 m-auto content-center items-start">
-      <Icon name="mdi:calendar" size={30}></Icon>
-      <strong class="">Beginn</strong>
-      <div>{ renderDate(event.starts_at, 'de') }</div>
-      { event.ends_at && (
-        <div />
-        <strong>Ende</strong>
-        <div>{renderDate(event.ends_at, 'de')}</div>
-      )}
-      <Icon name="mdi:map-marker" size={30}></Icon>
-      <strong>Ort</strong>
-      <div>{event.location}</div>
-      <Icon name="mdi:earth" size={30}></Icon>
-      <strong>Öffentlich</strong>
-      <div>{event.public ? "Ja" : "Nein"}</div>
+    <div class="card bg-base-200 shadow-sm card-lg">
+      <div class="grid grid-cols-[1fr_2fr_3fr] w-3/4 m-auto content-center items-start card-body">
+        <Icon name="mdi:calendar" size={30}></Icon>
+        <strong class="">Beginn</strong>
+        <div>{ renderDate(event.starts_at, 'de') }</div>
+        { event.ends_at && (
+          <div />
+          <strong>Ende</strong>
+          <div>{renderDate(event.ends_at, 'de')}</div>
+        )}
+        <Icon name="mdi:map-marker" size={30}></Icon>
+        <strong>Ort</strong>
+        <div>
+          {
+            event.location.split("\n").map((line) => {
+              return <div>{line}</div>
+            })
+          }
+        </div>
+        <Icon name="mdi:earth" size={30}></Icon>
+        <strong>Öffentlich</strong>
+        <div>{event.public ? "Ja" : "Nein"}</div>
+      </div>
     </div>
 
     <div set:html={md.render(event.description)}></div>
 
-
-    
+    { 
+      event.url && (
+        <a href={event.url} class="btn btn-primary w-full not-prose">Mehr Infos</a>
+      ) 
+    }
 
  </div>
 
