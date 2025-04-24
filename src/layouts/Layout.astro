@@ -39,7 +39,9 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
           <li>
             <details>
               <summary class="btn btn-ghost">Tools</summary>
-              <ul class="bg-base-100 rounded-t-none p-2 z-50 w-fit sticky right-2.5">
+              <ul
+                class="bg-base-100 sticky right-2.5 z-50 w-fit rounded-t-none p-2"
+              >
                 <li>
                   <a class="btn btn-ghost text-right">
                     Chat
@@ -62,14 +64,13 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
             </details>
           </li>
         </ul>
-        </div>
       </div>
     </nav>
-
-    <main>
-      <slot />
-    </main>
   </body>
+
+  <main>
+    <slot />
+  </main>
 </html>
 
 <style>
