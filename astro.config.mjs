@@ -19,7 +19,11 @@ export default defineConfig({
   env: {
     schema: {
       DIRECTUS_URL: envField.string({ context: "server", access: "public" }),
-      DIRECTUS_TOKEN: envField.string({ context: "server", access: "secret" }),
+      DIRECTUS_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
     },
   },
 });
