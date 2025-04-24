@@ -18,6 +18,10 @@ export interface Schema {
   Calendar: Calendar[];
 }
 
-export default createDirectus<Schema>(DIRECTUS_URL)
-  .with(staticToken(DIRECTUS_TOKEN))
-  .with(rest());
+let client = createDirectus<Schema>(DIRECTUS_URL).with(rest());
+
+if (DIRECTUS_TOKEN) {
+  client = client.with(staticToken(DIRECTUS_TOKEN));
+}
+
+export default client;
