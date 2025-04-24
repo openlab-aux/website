@@ -1,0 +1,52 @@
+---
+import { readItems } from "@directus/sdk";
+import { DIRECTUS_URL } from "astro:env/server";
+
+import Layout from "../layouts/Layout.astro";
+import directusClient from "../util/directus";
+import { markdown } from "@astropub/md";
+
+import { DateTime } from "luxon";
+
+const events = await directusClient.request(
+  readItems("Calendar", {
+    filter: { status: { _eq: "published" } },
+  }),
+);
+---
+
+<Layout>
+  <div class="m-auto my-10 w-11/12 max-w-prose">
+    <h1>Kalender</h1>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        Promise.all(
+          events.map(async (event) => (
+            <div class="card bg-base-100 image-full not-prose w-full shadow-xl">
+              <figure>
+                <img
+                  src={`${DIRECTUS_URL}/assets/${event.image}`}
+                  alt="flavor pic"
+                />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">{event.title}</h2>
+                <p>
+                  {DateTime.fromISO(event.starts_at)
+                    .setLocale("de")
+                    .toRelative()}
+                </p>
+                <p set:html={await markdown(event.description)} />
+                <div class="card-actions justify-end">
+                  <a href={`/events/${event.id}`} class="btn btn-primary">
+                    Mehr Infos
+                  </a>
+                </div>
+              </div>
+            </div>
+          )),
+        )
+      }
+    </div>
+  </div>
+</Layout>

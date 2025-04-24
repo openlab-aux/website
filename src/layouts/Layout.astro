@@ -5,6 +5,8 @@ export interface Props {
   title?: string;
 }
 
+import { Icon } from "astro-icon/components";
+
 const BASE_TITLE = "OpenLab Augsburg";
 
 let { title } = Astro.props;
@@ -15,7 +17,7 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -30,17 +32,45 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
         >
       </div>
       <div class="flex-none px-3">
-        <a class="btn btn-ghost" href="/wo">Wo?!</a>
-        <a class="btn btn-ghost" href="/satzung">Satzung</a>
-        <a class="btn btn-ghost" href="https://wiki.openlab-augsburg.de">Wiki</a
-        >
+        <ul class="menu menu-horizontal">
+          <li><a class="btn btn-ghost" href="/wo">Wo?!</a></li>
+          <li><a class="btn btn-ghost" href="/calendar">Kalender</a></li>
+          <li><a class="btn btn-ghost" href="/satzung">Satzung</a></li>
+          <li>
+            <details>
+              <summary class="btn btn-ghost">Tools</summary>
+              <ul
+                class="bg-base-100 sticky right-2.5 z-50 w-fit rounded-t-none p-2"
+              >
+                <li>
+                  <a class="btn btn-ghost text-right">
+                    Chat
+                    <Icon name="mdi:link-variant" size={20} />
+                  </a>
+                </li>
+                <li>
+                  <a class="btn btn-ghost text-right">
+                    Wiki
+                    <Icon name="mdi:link-variant" size={20} />
+                  </a>
+                </li>
+                <li>
+                  <a class="btn btn-ghost text-right">
+                    Cryptpad
+                    <Icon name="mdi:link-variant" size={20} />
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
       </div>
     </nav>
-
-    <main>
-      <slot />
-    </main>
   </body>
+
+  <main>
+    <slot />
+  </main>
 </html>
 
 <style>
