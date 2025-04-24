@@ -40,24 +40,30 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
             <details>
               <summary class="btn btn-ghost">Tools</summary>
               <ul
-                class="bg-base-100 sticky right-2.5 z-50 w-fit rounded-t-none p-2"
+                class="bg-base-100 not-prose sticky right-1.5 z-50 w-fit rounded-t-none p-2 drop-shadow-xl"
               >
                 <li>
-                  <a class="btn btn-ghost text-right">
+                  <a
+                    class="btn btn-ghost justify-start"
+                    href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
+                  >
+                    <Icon name="mdi:link-variant" size={20} />
                     Chat
-                    <Icon name="mdi:link-variant" size={20} />
                   </a>
                 </li>
                 <li>
-                  <a class="btn btn-ghost text-right">
+                  <a
+                    class="btn btn-ghost justify-start"
+                    href="https://wiki.openlab-augsburg.de"
+                  >
+                    <Icon name="mdi:link-variant" size={20} />
                     Wiki
-                    <Icon name="mdi:link-variant" size={20} />
                   </a>
                 </li>
                 <li>
-                  <a class="btn btn-ghost text-right">
-                    Cryptpad
+                  <a class="btn btn-ghost justify-start" href="https://ola.lol">
                     <Icon name="mdi:link-variant" size={20} />
+                    Cryptpad
                   </a>
                 </li>
               </ul>
