@@ -1,35 +1,26 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import directusClient from "../../util/directus";
-import { readItem, readItems } from "@directus/sdk";
+import { getCalendarEvents } from "../../util/directus";
 import { DIRECTUS_URL } from "astro:env/server";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
-import { linear } from "svelte/easing";
 import { markdown } from "@astropub/md";
 
 export const getStaticPaths = async () => {
-  return await directusClient
-    .request(
-      readItems("Calendar", {
-        filter: {
-          status: { _eq: "published" },
-        },
-      }),
-    )
-    .then((events) => {
-      return events.map((event) => {
-        return {
-          params: { eventId: event.id },
-        };
-      });
-    });
+  const events = await getCalendarEvents();
+  return events.map((e) => {
+    return {
+      params: {
+        eventId: e.id,
+      },
+    };
+  });
 };
 
 const { eventId } = Astro.params;
 
-const event = await directusClient.request(readItem("Calendar", eventId));
+const event = (await getCalendarEvents()).find((e) => e.id == eventId);
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
@@ -40,12 +31,17 @@ function renderDate(iso: string, locale: string) {
 
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
-    <img
-      src={`${DIRECTUS_URL}/assets/${event.image}`}
-      class="max-h-[250px] w-full rounded-xl object-cover"
-    />
-
-    <h1>{event.title}</h1>
+    {
+      event.image && (
+        <img
+          src={`${DIRECTUS_URL}/assets/${event.image}`}
+          class="max-h-[250px] w-full rounded-xl object-cover"
+        />
+      )
+    }
+    <h1>
+      {event.title}
+    </h1>
 
     <div class="card bg-base-200 card-lg shadow-sm">
       <div
