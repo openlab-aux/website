@@ -30,9 +30,11 @@ export default defineConfig({
       DIRECTUS_TOKEN: envField.string({
         context: "server",
         access: "secret",
-        optional: true,
+        optional: false,
       }),
     },
+
+    validateSecrets: false,
   },
 
   adapter: node({

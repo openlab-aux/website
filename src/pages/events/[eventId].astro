@@ -2,23 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 
 import { getCalendarEvents } from "../../util/directus";
-import { DIRECTUS_URL } from "astro:env/server";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
 
-export const getStaticPaths = async () => {
-  const events = await getCalendarEvents();
-  return events.map((e) => {
-    return {
-      params: {
-        eventId: e.id,
-      },
-    };
-  });
-};
-
 const { eventId } = Astro.params;
+
+const DIRECTUS_URL = process.env.DIRECTUS_URL;
 
 const event = (await getCalendarEvents()).find((e) => e.id == eventId);
 
@@ -59,25 +49,27 @@ function renderDate(iso: string, locale: string) {
             </>
           )
         }
+
         <Icon name="mdi:map-marker" size={30} />
         <strong>Ort</strong>
         <div>
           {event.location.split("\n").map((line) => <div>{line}</div>)}
         </div>
+
         <Icon name="mdi:earth" size={30} />
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
-      </div>
+      
+        { event.url &&
+          <Icon name="mdi:link" size={30} />
+          <strong>Mehr Informationen</strong>
+          <a href={event.url} class="link">
+            Externer Link
+          </a>
+        }
+     </div>
     </div>
 
     <div set:html={await markdown(event.description)} />
-
-    {
-      event.url && (
-        <a href={event.url} class="btn btn-primary not-prose w-full">
-          Mehr Infos
-        </a>
-      )
-    }
   </div>
 </Layout>

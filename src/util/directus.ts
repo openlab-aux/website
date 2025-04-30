@@ -1,5 +1,4 @@
 import { createDirectus, readItems, rest, staticToken } from "@directus/sdk";
-import { DIRECTUS_URL, DIRECTUS_TOKEN } from "astro:env/server";
 import { DateTime, type DateObjectUnits } from "luxon";
 import rrule from "rrule";
 import { v4 as uuidv4 } from "uuid";
@@ -21,6 +20,9 @@ export interface CalendarEvent {
 export interface Schema {
   Calendar: CalendarEvent[];
 }
+
+const DIRECTUS_URL = process.env.DIRECTUS_URL || "NOPE";
+const DIRECTUS_TOKEN = process.env.DIRECTUS_TOKEN || "NOPE";
 
 let client = createDirectus<Schema>(DIRECTUS_URL).with(rest());
 
