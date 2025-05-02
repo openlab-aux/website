@@ -10,7 +10,7 @@ const { eventId } = Astro.params;
 
 const DIRECTUS_URL = process.env.DIRECTUS_URL;
 
-const event = (await getCalendarEvents()).find((e) => e.id == eventId);
+const event = (await getCalendarEvents()).find((e) => e.id == eventId)!;
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
