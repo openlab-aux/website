@@ -1,35 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import directusClient from "../../util/directus";
-import { readItem, readItems } from "@directus/sdk";
-import { DIRECTUS_URL } from "astro:env/server";
+import { getCalendarEvents } from "../../util/directus";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
-import { linear } from "svelte/easing";
 import { markdown } from "@astropub/md";
-
-export const getStaticPaths = async () => {
-  return await directusClient
-    .request(
-      readItems("Calendar", {
-        filter: {
-          status: { _eq: "published" },
-        },
-      }),
-    )
-    .then((events) => {
-      return events.map((event) => {
-        return {
-          params: { eventId: event.id },
-        };
-      });
-    });
-};
 
 const { eventId } = Astro.params;
 
-const event = await directusClient.request(readItem("Calendar", eventId));
+const DIRECTUS_URL = process.env.DIRECTUS_URL;
+
+const event = (await getCalendarEvents()).find((e) => e.id == eventId)!;
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
@@ -40,12 +21,17 @@ function renderDate(iso: string, locale: string) {
 
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
-    <img
-      src={`${DIRECTUS_URL}/assets/${event.image}`}
-      class="max-h-[250px] w-full rounded-xl object-cover"
-    />
-
-    <h1>{event.title}</h1>
+    {
+      event.image && (
+        <img
+          src={`${DIRECTUS_URL}/assets/${event.image}`}
+          class="max-h-[250px] w-full rounded-xl object-cover"
+        />
+      )
+    }
+    <h1>
+      {event.title}
+    </h1>
 
     <div class="card bg-base-200 card-lg shadow-sm">
       <div
@@ -63,25 +49,27 @@ function renderDate(iso: string, locale: string) {
             </>
           )
         }
+
         <Icon name="mdi:map-marker" size={30} />
         <strong>Ort</strong>
         <div>
           {event.location.split("\n").map((line) => <div>{line}</div>)}
         </div>
+
         <Icon name="mdi:earth" size={30} />
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
-      </div>
+      
+        { event.url &&
+          <Icon name="mdi:link" size={30} />
+          <strong>Mehr Informationen</strong>
+          <a href={event.url} class="link">
+            Externer Link
+          </a>
+        }
+     </div>
     </div>
 
     <div set:html={await markdown(event.description)} />
-
-    {
-      event.url && (
-        <a href={event.url} class="btn btn-primary not-prose w-full">
-          Mehr Infos
-        </a>
-      )
-    }
   </div>
 </Layout>
