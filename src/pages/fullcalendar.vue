@@ -43,7 +43,6 @@ export default {
         },
         selectable: true,
         lazyFetching: true,
-        aspectRatio: 2,
       },
     };
   },
