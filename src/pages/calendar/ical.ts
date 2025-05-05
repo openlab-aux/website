@@ -1,10 +1,6 @@
 import type { APIRoute } from "astro";
 import { createEvents, type EventAttributes } from "ics";
-import {
-  getCalendarEvents,
-  getRawCalendarEvents,
-  type CalendarEvent,
-} from "../../util/directus";
+import { getRawCalendarEvents, type CalendarEvent } from "../../util/directus";
 import { DateTime } from "luxon";
 
 function mapDirectus(directusEvent: CalendarEvent): EventAttributes {
@@ -32,8 +28,6 @@ function mapDirectus(directusEvent: CalendarEvent): EventAttributes {
 export const GET: APIRoute = async () => {
   const directusEvents = await getRawCalendarEvents();
   const ics = createEvents(directusEvents.map(mapDirectus));
-
-  console.log(directusEvents);
 
   if (ics.error) {
     console.error(ics.error);

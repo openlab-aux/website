@@ -59,15 +59,19 @@ function renderDate(iso: string, locale: string) {
         <Icon name="mdi:earth" size={30} />
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
-      
-        { event.url &&
-          <Icon name="mdi:link" size={30} />
-          <strong>Mehr Informationen</strong>
-          <a href={event.url} class="link">
-            Externer Link
-          </a>
+
+        {
+          event.url && (
+            <>
+              <Icon name="mdi:link" size={30} />
+              <strong>Mehr Informationen</strong>
+              <a href={event.url} class="link">
+                Externer Link
+              </a>
+            </>
+          )
         }
-     </div>
+      </div>
     </div>
 
     <div set:html={await markdown(event.description)} />
