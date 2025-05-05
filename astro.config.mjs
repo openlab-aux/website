@@ -10,6 +10,8 @@ import icon from "astro-icon";
 
 import node from "@astrojs/node";
 
+import vue from "@astrojs/vue";
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
@@ -18,7 +20,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [svelte(), icon(), markdownIntegration()],
+  integrations: [svelte(), icon(), markdownIntegration(), vue()],
 
   env: {
     schema: {
