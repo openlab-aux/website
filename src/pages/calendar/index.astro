@@ -101,7 +101,7 @@ const events = await getCalendarEvents();
                   <div class="flex justify-between">
                     <h2 class="card-title">{event.title}</h2>
                     <div
-                      class="badge badge-soft pt-2"
+                      class="badge badge-soft"
                       class:list={[{ "badge-success": event.public }]}
                     >
                       {event.public ? "Öffentlich" : "Nur Mitglieder"}
