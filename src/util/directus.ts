@@ -22,7 +22,7 @@ export interface Schema {
   Calendar: CalendarEvent[];
 }
 
-const DIRECTUS_URL = getSecret("DIRECTUS_URL") || "NOPE";
+const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
 const DIRECTUS_TOKEN = getSecret("DIRECTUS_TOKEN");
 
 let client = createDirectus<Schema>(DIRECTUS_URL).with(rest());
@@ -62,12 +62,17 @@ function unfoldRecurring(event: CalendarEvent): CalendarEvent[] {
   });
 }
 
-export async function getCalendarEvents(): Promise<CalendarEvent[]> {
+export async function getRawCalendarEvents(): Promise<CalendarEvent[]> {
   const events = await client.request(
     readItems("Calendar", {
       filter: { status: { _eq: "published" } },
     }),
   );
+  return events;
+}
+
+export async function getCalendarEvents(): Promise<CalendarEvent[]> {
+  const events = await getRawCalendarEvents();
   return events
     .map((ev) => unfoldRecurring(ev))
     .flat()
