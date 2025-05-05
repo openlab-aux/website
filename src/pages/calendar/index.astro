@@ -1,139 +1,63 @@
 ---
-import { readItems } from "@directus/sdk";
-
-import { DIRECTUS_URL } from "astro:env/server";
-
 import Layout from "../../layouts/Layout.astro";
-import { markdown } from "@astropub/md";
-
-import { DateTime } from "luxon";
-import { getCalendarEvents } from "../../util/directus";
-
-const events = await getCalendarEvents();
 ---
 
 <Layout>
   <div class="m-auto my-10 w-11/12">
     <h1>Kalender</h1>
     <div class="m-auto w-11/12">
-      <div id="calendar"></div>
-
-      <script>
-        import { Calendar, type CalendarOptions } from "@fullcalendar/core";
-        import dayGridPlugin from "@fullcalendar/daygrid";
-        import timeGridPlugin from "@fullcalendar/timegrid";
-        import interactionPlugin from "@fullcalendar/interaction";
-        import listPlugin from "@fullcalendar/list";
-        import deLocale from "@fullcalendar/core/locales/de";
-        import iCalendarPlugin from "@fullcalendar/icalendar";
-
-        const element = document.getElementById("calendar")!;
-        const options: CalendarOptions = {
-          initialView: "dayGridMonth",
-          plugins: [
-            dayGridPlugin,
-            timeGridPlugin,
-            interactionPlugin,
-            listPlugin,
-            iCalendarPlugin,
-          ],
-          events: {
-            url: "/calendar/ical",
-            format: "ics",
-          },
-          locale: "de",
-          locales: [deLocale],
-          headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listYear",
-          },
-          eventTimeFormat: {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          },
-          buttonText: {
-            today: "Heute",
-            year: "Jahr",
-            month: "Monat",
-            week: "Woche",
-            day: "Tag",
-            list: "Liste",
-          },
-          selectable: true,
-          lazyFetching: true,
-        };
-
-        const calendar = new Calendar(element, options);
-        calendar.render();
-      </script>
-    </div>
-    <h1 class="mt-20">Events</h1>
-    <div class="m-auto my-10">
-      <div
-        class="grid grid-cols-1 gap-4 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-4"
-      >
-        {
-          await Promise.all(
-            events.map(async (event) => (
-              <div
-                class:list={[
-                  "card",
-                  "bg-base-200",
-                  "not-prose",
-                  "w-full",
-                  "shadow-xl",
-                ]}
-              >
-                {/* {event.image && (
-                    <div class="card-image">
-                      <figure>
-                        <img
-                          src={`${DIRECTUS_URL}/assets/${event.image}`}
-                          alt="flavor pic"
-                        />
-                      </figure>
-                    </div>
-                  )}
-    */}
-                <div class="card-body">
-                  <div class="flex justify-between">
-                    <h2 class="card-title">{event.title}</h2>
-                    <div
-                      class="badge badge-soft"
-                      class:list={[{ "badge-success": event.public }]}
-                    >
-                      {event.public ? "Öffentlich" : "Nur Mitglieder"}
-                    </div>
-                  </div>
-                  <div>
-                    <p>
-                      {DateTime.fromISO(event.starts_at)
-                        .setLocale("de")
-                        .toRelative()}
-                    </p>
-                  </div>
-                  <p>
-                    {DateTime.fromISO(event.starts_at).toFormat(
-                      "DD.MM.YYYY HH:MM",
-                    )}
-                  </p>
-                  {/* <p set:html={await markdown(event.description)} /> */}
-                  <div>
-                    <div class="card-actions justify-start" />
-                    <div class="card-actions justify-end">
-                      <a href={`/events/${event.id}`} class="btn btn-primary">
-                        Mehr Infos
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )),
-          )
-        }
-      </div>
+      <div id="calendar" class="not-prose"></div>
     </div>
   </div>
 </Layout>
+
+<script>
+  import { Calendar, type CalendarOptions } from "@fullcalendar/core";
+  import dayGridPlugin from "@fullcalendar/daygrid";
+  import timeGridPlugin from "@fullcalendar/timegrid";
+  import interactionPlugin from "@fullcalendar/interaction";
+  import listPlugin from "@fullcalendar/list";
+  import deLocale from "@fullcalendar/core/locales/de";
+  import iCalendarPlugin from "@fullcalendar/icalendar";
+
+  const element = document.getElementById("calendar")!;
+  const options: CalendarOptions = {
+    initialView: "dayGridMonth",
+    plugins: [
+      dayGridPlugin,
+      timeGridPlugin,
+      interactionPlugin,
+      listPlugin,
+      iCalendarPlugin,
+    ],
+    events: {
+      url: "/calendar/ical",
+      format: "ics",
+    },
+    locale: "de",
+    locales: [deLocale],
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listYear",
+    },
+    eventTimeFormat: {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    },
+    buttonText: {
+      today: "Heute",
+      year: "Jahr",
+      month: "Monat",
+      week: "Woche",
+      day: "Tag",
+      list: "Liste",
+    },
+    selectable: true,
+    lazyFetching: true,
+  };
+
+  const calendar = new Calendar(element, options);
+  calendar.render();
+</script>
