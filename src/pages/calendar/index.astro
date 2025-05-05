@@ -18,7 +18,7 @@ const events = await getCalendarEvents();
 <Layout>
   <div class="m-auto my-10 w-11/12">
     <h1>Kalender</h1>
-    <div >
+    <div class="m-auto w-11/12">
       <FullCalendar events={events} client:load="vue" />
     </div>
     <h1 class="mt-20">Events</h1>
@@ -52,7 +52,7 @@ const events = await getCalendarEvents();
                   <div class="card-body">
                       <div class="flex justify-between">
                                       <h2 class="card-title">{event.title}</h2>
-                    <div class="badge badge-soft mt-2" class:list={[{'badge-success': event.public}]}>{event.public ? "Öffentlich" : "Nur Mitglieder"}</div>
+                    <div class="badge badge-soft pt-2" class:list={[{'badge-success': event.public}]}>{event.public ? "Öffentlich" : "Nur Mitglieder"}</div>
                   </div>
                     <div>
                     <p>
