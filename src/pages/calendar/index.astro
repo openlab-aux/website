@@ -6,9 +6,10 @@ import Layout from "../../layouts/Layout.astro";
 import { markdown } from "@astropub/md";
 
 import { DateTime } from "luxon";
-import { getCalendarEvents } from "../../util/directus";
+import { getRawEvents } from "../../util/directus";
+import { getEvents } from "../../util/event";
 
-const events = await getCalendarEvents();
+const events = await getEvents();
 ---
 
 <Layout>

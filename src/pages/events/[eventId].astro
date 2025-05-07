@@ -1,16 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import { getCalendarEvents } from "../../util/directus";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
+import { getEvents } from "../../util/event";
 
 const { eventId } = Astro.params;
 
 const DIRECTUS_URL = process.env.DIRECTUS_URL;
 
-const event = (await getCalendarEvents()).find((e) => e.id == eventId)!;
+const event = (await getEvents()).find((e) => e.id == eventId)!;
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
@@ -22,9 +22,9 @@ function renderDate(iso: string, locale: string) {
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
     {
-      event.image && (
+      event.imageUrl && (
         <img
-          src={`${DIRECTUS_URL}/assets/${event.image}`}
+          src={event.imageUrl}}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
       )
@@ -60,10 +60,10 @@ function renderDate(iso: string, locale: string) {
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
       
-        { event.url &&
+        { event.externalUrl &&
           <Icon name="mdi:link" size={30} />
           <strong>Mehr Informationen</strong>
-          <a href={event.url} class="link">
+          <a href={event.externalUrl} class="link">
             Externer Link
           </a>
         }
