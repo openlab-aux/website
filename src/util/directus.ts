@@ -46,7 +46,7 @@ function unfoldRecurring(event: CalendarEvent): CalendarEvent[] {
   return rruleSet.map((date: Date) => {
     const newDate = {
       year: date.getFullYear(),
-      month: date.getMonth(),
+      month: date.getMonth() + 1,
       day: date.getDate(),
     };
 
