@@ -2,11 +2,11 @@
 import { readItems } from "@directus/sdk";
 import { DIRECTUS_URL } from "astro:env/server";
 
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
 import { markdown } from "@astropub/md";
 
 import { DateTime } from "luxon";
-import { getCalendarEvents } from "../../util/directus";
+import { getCalendarEvents } from "../util/directus";
 
 const events = await getCalendarEvents();
 ---
