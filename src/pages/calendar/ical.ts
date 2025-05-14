@@ -1,19 +1,15 @@
 import type { APIRoute } from "astro";
 import { createEvents, type EventAttributes } from "ics";
-import {
-  getCalendarEvents,
-  getRawCalendarEvents,
-  type CalendarEvent,
-} from "../../util/directus";
+import { getRawCalendarEvents, type CalendarEvent } from "../../util/directus";
 import { DateTime } from "luxon";
 
-function mapDirectus(directusEvent: CalendarEvent): EventAttributes {
+function mapDirectus(serverUrl: string, directusEvent: CalendarEvent): EventAttributes {
   const baseValue = {
     title: directusEvent.title,
     description: directusEvent.description,
     location: directusEvent.location,
     start: DateTime.fromISO(directusEvent.starts_at).toMillis(),
-    url: directusEvent.url ?? undefined,
+    url: `http://${serverUrl}/events/${directusEvent.id}`,
     recurrenceRule:
       directusEvent.recurring?.replace(/^RRULE:/, "") ?? undefined,
     classification: directusEvent.public ? "PUBLIC" : "PRIVATE",
@@ -29,11 +25,9 @@ function mapDirectus(directusEvent: CalendarEvent): EventAttributes {
   }
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   const directusEvents = await getRawCalendarEvents();
-  const ics = createEvents(directusEvents.map(mapDirectus));
-
-  console.log(directusEvents);
+  const ics = createEvents(directusEvents.map(event => mapDirectus(request.headers.get("host")!, event)));
 
   if (ics.error) {
     console.error(ics.error);

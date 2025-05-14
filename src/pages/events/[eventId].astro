@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import { getCalendarEvents } from "../../util/directus";
+import { getRawCalendarEvents } from "../../util/directus";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
@@ -10,7 +10,7 @@ const { eventId } = Astro.params;
 
 const DIRECTUS_URL = process.env.DIRECTUS_URL;
 
-const event = (await getCalendarEvents()).find((e) => e.id == eventId)!;
+const event = (await getRawCalendarEvents()).find((e) => e.id == eventId)!;
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
@@ -59,15 +59,19 @@ function renderDate(iso: string, locale: string) {
         <Icon name="mdi:earth" size={30} />
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
-      
-        { event.url &&
-          <Icon name="mdi:link" size={30} />
-          <strong>Mehr Informationen</strong>
-          <a href={event.url} class="link">
-            Externer Link
-          </a>
+
+        {
+          event.url && (
+            <>
+              <Icon name="mdi:link" size={30} />
+              <strong>Mehr Informationen</strong>
+              <a href={event.url} class="link">
+                Externer Link
+              </a>
+            </>
+          )
         }
-     </div>
+      </div>
     </div>
 
     <div set:html={await markdown(event.description)} />
