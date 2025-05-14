@@ -35,6 +35,7 @@ export const GET: APIRoute = async ({ request }) => {
       mapDirectus(request.headers.get("host")!, event),
     ),
   );
+  const ics = createEvents(directusEvents.map(event => mapDirectus(request.headers.get("host")!, event)));
 
   if (ics.error) {
     console.error(ics.error);
