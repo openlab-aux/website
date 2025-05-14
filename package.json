@@ -36,15 +36,15 @@
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
     "uuid": "^11.1.0",
-    "ics": "^3.8.1"
-  },
-  "devDependencies": {
+    "ics": "^3.8.1",
+    "leaflet": "^1.9.4",
     "@aumetra/hackspace-status-svelte": "^0.0.3",
     "@iconify-json/mdi": "^1.2.3",
     "@tailwindcss/typography": "^0.5.16",
+    "daisyui": "^5.0.28"
+  },
+  "devDependencies": {
     "@types/leaflet": "^1.9.17",
-    "daisyui": "^5.0.28",
-    "leaflet": "^1.9.4",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11"
