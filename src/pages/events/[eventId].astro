@@ -1,14 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import fallbackImage from "../../assets/calendar_fallback.jpeg";
 
 import { getRawCalendarEvents } from "../../util/directus";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
+import { getSecret } from "astro:env/server";
 
 const { eventId } = Astro.params;
 
-const DIRECTUS_URL = process.env.DIRECTUS_URL;
+const DIRECTUS_URL = getSecret('DIRECTUS_URL')!;
 
 const event = (await getRawCalendarEvents()).find((e) => e.id == eventId)!;
 
@@ -17,6 +19,11 @@ function renderDate(iso: string, locale: string) {
     .setLocale(locale)
     .toLocaleString(DateTime.DATETIME_FULL);
 }
+
+let imageSrc = fallbackImage.src;
+if (event.image) {
+  imageSrc = `${DIRECTUS_URL}/assets/${event.image}`;
+}
 ---
 
 <Layout title="OpenLab Augsburg e.V. - Event">
@@ -24,7 +31,7 @@ function renderDate(iso: string, locale: string) {
     {
       event.image && (
         <img
-          src={`${DIRECTUS_URL}/assets/${event.image}`}
+          src={imageSrc}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
       )

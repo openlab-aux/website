@@ -4,10 +4,12 @@ import Layout from "../../layouts/Layout.astro";
 
 <Layout>
   <div class="m-auto my-10 w-11/12">
-    <h1>Kalender</h1>
-    <div class="m-auto w-11/12">
-      <div id="calendar" class="not-prose h-fit sm:h-fit md:h-fit"></div>
+    <div class="w-full flex justify-end mb-7">
+      <a class="btn btn-primary no-underline" href="/calendar/ical">
+        Download ICS
+      </a>
     </div>
+    <div id="calendar" class="not-prose h-fit"></div>
   </div>
 </Layout>
 
