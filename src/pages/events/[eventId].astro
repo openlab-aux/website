@@ -61,11 +61,13 @@ function renderDate(iso: string, locale: string) {
         <div>{event.public ? "Ja" : "Nein"}</div>
       
         { event.url &&
+        <>
           <Icon name="mdi:link" size={30} />
           <strong>Mehr Informationen</strong>
           <a href={event.url} class="link">
             Externer Link
           </a>
+        </>
         }
      </div>
     </div>
