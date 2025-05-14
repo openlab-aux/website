@@ -3,7 +3,10 @@ import { createEvents, type EventAttributes } from "ics";
 import { getRawCalendarEvents, type CalendarEvent } from "../../util/directus";
 import { DateTime } from "luxon";
 
-function mapDirectus(serverUrl: string, directusEvent: CalendarEvent): EventAttributes {
+function mapDirectus(
+  serverUrl: string,
+  directusEvent: CalendarEvent,
+): EventAttributes {
   const baseValue = {
     title: directusEvent.title,
     description: directusEvent.description,
@@ -27,7 +30,11 @@ function mapDirectus(serverUrl: string, directusEvent: CalendarEvent): EventAttr
 
 export const GET: APIRoute = async ({ request }) => {
   const directusEvents = await getRawCalendarEvents();
-  const ics = createEvents(directusEvents.map(event => mapDirectus(request.headers.get("host")!, event)));
+  const ics = createEvents(
+    directusEvents.map((event) =>
+      mapDirectus(request.headers.get("host")!, event),
+    ),
+  );
 
   if (ics.error) {
     console.error(ics.error);
