@@ -6,7 +6,7 @@ import Layout from "../../layouts/Layout.astro";
   <div class="m-auto my-10 w-11/12">
     <h1>Kalender</h1>
     <div class="m-auto w-11/12">
-      <div id="calendar" class="not-prose"></div>
+      <div id="calendar" class="not-prose h-fit sm:h-fit md:h-fit"></div>
     </div>
   </div>
 </Layout>
@@ -22,7 +22,7 @@ import Layout from "../../layouts/Layout.astro";
 
   const element = document.getElementById("calendar")!;
   const options: CalendarOptions = {
-    initialView: "dayGridMonth",
+    initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
     plugins: [
       dayGridPlugin,
       timeGridPlugin,
@@ -56,8 +56,19 @@ import Layout from "../../layouts/Layout.astro";
     },
     selectable: true,
     lazyFetching: true,
+    contentHeight: "auto"
   };
 
   const calendar = new Calendar(element, options);
   calendar.render();
+  const mobileWidth = 768;
+  window.addEventListener('resize', () => {
+    // Switch views based on screen size
+    if (window.innerWidth < mobileWidth && calendar.view.type !== 'listYear') {
+      calendar.changeView('listYear');
+
+    } else if (window.innerWidth >= mobileWidth && calendar.view.type !== 'dayGridMonth') {
+      calendar.changeView('dayGridMonth');
+    }
+  });
 </script>
