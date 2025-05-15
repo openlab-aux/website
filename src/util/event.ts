@@ -148,8 +148,5 @@ export async function getEvents(): Promise<CalendarEvent[]> {
         return -1;
       }
       return 1;
-    })
-    .filter((event) => {
-      return event.starts_at > DateTime.now().minus({ hours: 12 });
     });
 }
