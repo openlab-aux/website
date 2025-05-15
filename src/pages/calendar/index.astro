@@ -32,7 +32,7 @@ const events = await getEvents();
   const element = document.getElementById("calendar")!;
 
   const events = await (await fetch("/calendar/index.json")).json();
-  console.log(events)
+  console.log(events);
 
   const options: CalendarOptions = {
     initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
@@ -43,7 +43,13 @@ const events = await getEvents();
       listPlugin,
       iCalendarPlugin,
     ],
-    events: events.map((e) => ({id: e.id, title: e.title, start: e.starts_at, end: e.ends_at, url: e.externalUrl})),
+    events: events.map((e) => ({
+      id: e.id,
+      title: e.title,
+      start: e.starts_at,
+      end: e.ends_at,
+      url: e.externalUrl,
+    })),
     locale: "de",
     locales: [deLocale],
     headerToolbar: {
