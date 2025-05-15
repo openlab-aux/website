@@ -111,6 +111,17 @@ function getRecurrences(event: CalendarEventDTO): CalendarEvent[] {
   return dates
     .map((date) => DateTime.fromJSDate(date))
     .map((date) => moveEvent(parentEvent, date))
+    .filter((event) => {
+      const applyingCancellation = cancellations.findLast((cancellation) => {
+        return (
+          event.starts_at.hasSame(cancellation.cancelled_on, "day") &&
+          event.starts_at.hasSame(cancellation.cancelled_on, "month") &&
+          event.starts_at.hasSame(cancellation.cancelled_on, "year")
+        );
+      });
+
+      return !applyingCancellation;
+    })
     .concat(
       cancellations
         .filter((cancellation) => cancellation.moved_to)
