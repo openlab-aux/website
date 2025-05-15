@@ -16,10 +16,12 @@ export interface CalendarEventDTO {
   ends_at: string | null;
   url: string | null;
   recurring: string | null;
-  cancellations: {
-    cancelled_on: string;
-    moved_to: string | null;
-  }[] | null;
+  cancellations:
+    | {
+        cancelled_on: string;
+        moved_to: string | null;
+      }[]
+    | null;
 }
 
 const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
@@ -32,13 +34,13 @@ if (DIRECTUS_TOKEN) {
 }
 
 export async function getRawEvents(): Promise<CalendarEventDTO[]> {
-  const res = await calendarClient.request(
+  const res = (await calendarClient.request(
     readItems("Calendar", {
       filter: {
         status: { _eq: "published" },
-      }
-    })
-  ) as CalendarEventDTO[];
+      },
+    }),
+  )) as CalendarEventDTO[];
 
-  return res
+  return res;
 }

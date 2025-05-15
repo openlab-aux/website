@@ -31,7 +31,7 @@ function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
 
     ends_at: event.ends_at ? DateTime.fromISO(event.ends_at) : undefined,
     imageUrl: event.image
-      ? `${getSecret('DIRECTUS_URL')}/assets/${event.image}`
+      ? `${getSecret("DIRECTUS_URL")}/assets/${event.image}`
       : undefined,
     externalUrl: event.url ? event.url : undefined,
   };
