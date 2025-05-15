@@ -10,7 +10,7 @@ import { getSecret } from "astro:env/server";
 
 const { eventId } = Astro.params;
 
-const DIRECTUS_URL = getSecret('DIRECTUS_URL')!;
+const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
 
 const event = (await getRawCalendarEvents()).find((e) => e.id == eventId)!;
 
