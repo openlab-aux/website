@@ -17,8 +17,7 @@ import { SpaceStatus } from "@aumetra/hackspace-status-svelte";
       >
         <address>
           Bäckergasse 32
-          <br />86150 Augsburg
-          <br />Bayern, Germany
+          <br />86150 Augsburg <br />Bayern, Germany
         </address>
 
         <div class="divider sm:divider-horizontal"></div>
@@ -37,13 +36,14 @@ import { SpaceStatus } from "@aumetra/hackspace-status-svelte";
           <SpaceStatus
             client:load
             apiUrl="https://api.openlab-augsburg.de/13"
-            interval={60_000}
+            interval="{60_000}"
           />
         </div>
       </div>
     </div>
 
-    <small> Eingetragen am Amtsgericht Augsburg, VR 201371. </small>
+    <small> Eingetragen am Amtsgericht Augsburg, VR 201371. </small><br />
+    <small><a href="/satzung">Satzung</a></small>
   </div>
 </Layout>
 

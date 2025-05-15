@@ -19,23 +19,73 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
+    <meta name="generator" content="{Astro.generator}" />
+    <meta name="darkreader-lock" />
     <title>{title}</title>
   </head>
   <body>
     <nav
       class="navbar bg-base-100/50 sticky top-0 z-50 w-screen shadow-xl backdrop-blur-sm"
     >
-      <div class="flex-1">
-        <a class="btn btn-ghost text-xl" href="/"
-          >OpenLab <span class="max-sm:hidden">Augsburg</span></a
-        >
+      <div class="navbar-start">
+        <div class="dropdown dropdown-start">
+          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h8m-8 6h16"></path>
+            </svg>
+          </div>
+          <ul
+            tabindex="0"
+            class="menu menu-sm dropdown-content bg-base-100 not-prose sticky z-50 w-64 rounded-t-none p-2 drop-shadow-xl"
+          >
+            <li>
+              <a
+                class="btn btn-ghost justify-start"
+                href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
+              >
+                <Icon name="mdi:link-variant" size="20" />
+                Chat
+              </a>
+            </li>
+            <li>
+              <a
+                class="btn btn-ghost justify-start"
+                href="https://wiki.openlab-augsburg.de"
+              >
+                <Icon name="mdi:link-variant" size="20" />
+                Wiki
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-ghost justify-start" href="https://ola.lol">
+                <Icon name="mdi:link-variant" size="20" />
+                Cryptpad
+              </a>
+            </li>
+            <a
+              class="btn btn-ghost justify-start"
+              href="https://auth.openlab-augsburg.de"
+            >
+              <Icon name="mdi:lock" size="20" />
+              Member Dashboard
+            </a>
+          </ul>
+        </div>
       </div>
-      <div class="flex-none px-3">
-        <ul class="menu menu-horizontal">
+      <div class="navbar-end hidden px-3 lg:flex">
+        <ul class="menu menu-horizontal m-0 p-0">
           <li><a class="btn btn-ghost" href="/wo">Wo?!</a></li>
           <li><a class="btn btn-ghost" href="/calendar">Kalender</a></li>
-          <li><a class="btn btn-ghost" href="/satzung">Satzung</a></li>
           <li>
             <details>
               <summary class="btn btn-ghost">Tools</summary>
@@ -47,7 +97,7 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
                     class="btn btn-ghost justify-start"
                     href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
                   >
-                    <Icon name="mdi:link-variant" size={20} />
+                    <Icon name="mdi:link-variant" size="20" />
                     Chat
                   </a>
                 </li>
@@ -56,16 +106,23 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
                     class="btn btn-ghost justify-start"
                     href="https://wiki.openlab-augsburg.de"
                   >
-                    <Icon name="mdi:link-variant" size={20} />
+                    <Icon name="mdi:link-variant" size="20" />
                     Wiki
                   </a>
                 </li>
                 <li>
                   <a class="btn btn-ghost justify-start" href="https://ola.lol">
-                    <Icon name="mdi:link-variant" size={20} />
+                    <Icon name="mdi:link-variant" size="20" />
                     Cryptpad
                   </a>
                 </li>
+                <a
+                  class="btn btn-ghost justify-start"
+                  href="https://auth.openlab-augsburg.de"
+                >
+                  <Icon name="mdi:lock" size="20" />
+                  Member Dashboard
+                </a>
               </ul>
             </details>
           </li>

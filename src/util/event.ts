@@ -42,16 +42,18 @@ function moveEvent(event: CalendarEvent, newDate: DateTime): CalendarEvent {
     year: newDate.year,
     month: newDate.month,
     day: newDate.day,
-  }
+  };
 
   const res = {
     ...event,
     starts_at: event.starts_at.set(newDateObj),
     id: event.id + event.starts_at.toISODate(),
-  }
+  };
 
-  if(event.ends_at) {
-    const duration = event.ends_at.diff(event.starts_at, ["days", "hours", "minutes", "seconds"]).toObject();
+  if (event.ends_at) {
+    const duration = event.ends_at
+      .diff(event.starts_at, ["days", "hours", "minutes", "seconds"])
+      .toObject();
     res.ends_at = res.starts_at.plus(duration);
   }
 
@@ -123,14 +125,9 @@ function getRecurrences(event: CalendarEventDTO): CalendarEvent[] {
         .filter((cancellation) => cancellation.moved_to)
         .map((cancellation) => cancellation.moved_to!)
         .reduce((acc: CalendarEvent[], newDate) => {
-          return [
-            ...acc,
-            moveEvent(parentEvent, newDate),
-          ]
-        },
-        []
-      )
-    )
+          return [...acc, moveEvent(parentEvent, newDate)];
+        }, []),
+    );
 }
 
 export async function getEvents(): Promise<CalendarEvent[]> {
@@ -151,6 +148,6 @@ export async function getEvents(): Promise<CalendarEvent[]> {
       return 1;
     })
     .filter((event) => {
-      return event.starts_at > DateTime.now().minus({hours: 12})
+      return event.starts_at > DateTime.now().minus({ hours: 12 });
     });
 }

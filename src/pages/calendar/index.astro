@@ -1,7 +1,4 @@
 ---
-import { readItems } from "@directus/sdk";
-import { DIRECTUS_URL } from "astro:env/server";
-
 import Layout from "../../layouts/Layout.astro";
 import { markdown } from "@astropub/md";
 
@@ -10,55 +7,88 @@ import { getRawEvents } from "../../util/directus";
 import { getEvents } from "../../util/event";
 
 const events = await getEvents();
+
 ---
 
 <Layout>
-  <div class="m-auto my-10 w-11/12 max-w-prose">
-    <h1>Kalender</h1>
-    <div
-      class="grid grid-cols-1 gap-4 backdrop-blur-md sm:grid-cols-2 lg:grid-cols-2"
-    >
-      {
-        await Promise.all(
-          events.map(async (event) => (
-            <div
-              class:list={[
-                "card",
-                "bg-base-20",
-                "not-prose",
-                "w-full",
-                "shadow-xl",
-              ]}
-            >
-              {/* {event.image && (
-                <div class="card-image">
-                  <figure>
-                    <img
-                      src={`${DIRECTUS_URL}/assets/${event.image}`}
-                      alt="flavor pic"
-                    />
-                  </figure>
-                </div>
-              )}
- */}
-              <div class="card-body">
-                <h2 class="card-title">{event.title}</h2>
-                <p>
-                  {DateTime.fromISO(event.starts_at)
-                    .setLocale("de")
-                    .toRelative()}
-                </p>
-                {/* <p set:html={await markdown(event.description)} /> */}
-                <div class="card-actions justify-end">
-                  <a href={`/events/${event.id}`} class="btn btn-primary">
-                    Mehr Infos
-                  </a>
-                </div>
-              </div>
-            </div>
-          )),
-        )
-      }
+  <div class="m-auto my-10 w-11/12">
+    <div class="mb-7 flex w-full justify-end">
+      <a class="btn btn-primary no-underline" href="/calendar/ical">
+        Download ICS
+      </a>
     </div>
+    <div id="calendar" class="not-prose h-fit"></div>
   </div>
 </Layout>
+
+<script>
+  import { Calendar, type CalendarOptions } from "@fullcalendar/core";
+  import dayGridPlugin from "@fullcalendar/daygrid";
+  import timeGridPlugin from "@fullcalendar/timegrid";
+  import interactionPlugin from "@fullcalendar/interaction";
+  import listPlugin from "@fullcalendar/list";
+  import deLocale from "@fullcalendar/core/locales/de";
+  import iCalendarPlugin from "@fullcalendar/icalendar";
+
+  const element = document.getElementById("calendar")!;
+  const options: CalendarOptions = {
+    initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
+    plugins: [
+      dayGridPlugin,
+      timeGridPlugin,
+      interactionPlugin,
+      listPlugin,
+      iCalendarPlugin,
+    ],
+    events: {
+      url: "/calendar/ical",
+      format: "ics",
+    },
+    locale: "de",
+    locales: [deLocale],
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listYear",
+    },
+    eventTimeFormat: {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    },
+    buttonText: {
+      today: "Heute",
+      year: "Jahr",
+      month: "Monat",
+      week: "Woche",
+      day: "Tag",
+      list: "Liste",
+    },
+    selectable: true,
+    lazyFetching: true,
+    contentHeight: "auto",
+  };
+
+  const calendar = new Calendar(element, options);
+  calendar.render();
+  const mobileWidth = 768;
+  window.addEventListener("resize", () => {
+    // Switch views based on screen size
+    if (window.innerWidth < mobileWidth && calendar.view.type !== "listYear") {
+      calendar.changeView("listYear");
+    } else if (
+      window.innerWidth >= mobileWidth &&
+      calendar.view.type !== "dayGridMonth"
+    ) {
+      calendar.changeView("dayGridMonth");
+    }
+  });
+</script>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  .fc-toolbar {
+    @apply max-md:flex-col! max-md:gap-2!;
+  }
+</style>

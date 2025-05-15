@@ -1,14 +1,17 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import fallbackImage from "../../assets/calendar_fallback.jpeg";
 
+
+import { getEvents } from "../../util/directus";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
-import { getEvents } from "../../util/event";
 
 const { eventId } = Astro.params;
 
-const DIRECTUS_URL = process.env.DIRECTUS_URL;
+const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
+
 
 const event = (await getEvents()).find((e) => e.id == eventId)!;
 
@@ -16,6 +19,11 @@ function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
     .setLocale(locale)
     .toLocaleString(DateTime.DATETIME_FULL);
+}
+
+let imageSrc = fallbackImage.src;
+if (event.image) {
+  imageSrc = `${DIRECTUS_URL}/assets/${event.image}`;
 }
 ---
 
@@ -59,15 +67,19 @@ function renderDate(iso: string, locale: string) {
         <Icon name="mdi:earth" size={30} />
         <strong>Öffentlich</strong>
         <div>{event.public ? "Ja" : "Nein"}</div>
-      
-        { event.externalUrl &&
-          <Icon name="mdi:link" size={30} />
-          <strong>Mehr Informationen</strong>
-          <a href={event.externalUrl} class="link">
-            Externer Link
-          </a>
+
+        {
+          event.externalUrl && (
+            <>
+              <Icon name="mdi:link" size={30} />
+              <strong>Mehr Informationen</strong>
+              <a href={event.externalUrl} class="link">
+                Externer Link
+              </a>
+            </>
+          )
         }
-     </div>
+      </div>
     </div>
 
     <div set:html={await markdown(event.description)} />
