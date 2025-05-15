@@ -18,6 +18,7 @@ export interface CalendarEvent {
   externalUrl?: string;
 
   parent?: CalendarEvent;
+  recurring?: string;
 }
 
 function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
@@ -34,6 +35,7 @@ function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
       ? `${getSecret("DIRECTUS_URL")}/assets/${event.image}`
       : undefined,
     externalUrl: event.url ? event.url : undefined,
+    recurring: event.recurring ?? undefined,
   };
 }
 
