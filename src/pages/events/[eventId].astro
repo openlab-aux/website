@@ -15,16 +15,17 @@ function renderDate(iso: string, locale: string) {
     .setLocale(locale)
     .toLocaleString(DateTime.DATETIME_FULL);
 }
-
 ---
 
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
     {
+      (
         <img
           src={event.imageUrl ?? fallbackImage.src}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
+      )
     }
     <h1>
       {event.title}
