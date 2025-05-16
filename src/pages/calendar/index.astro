@@ -21,74 +21,75 @@ const events = await getEvents();
 </Layout>
 
 <script>
-  import { Calendar, type CalendarOptions } from "@fullcalendar/core";
-  import dayGridPlugin from "@fullcalendar/daygrid";
-  import timeGridPlugin from "@fullcalendar/timegrid";
-  import interactionPlugin from "@fullcalendar/interaction";
-  import listPlugin from "@fullcalendar/list";
-  import deLocale from "@fullcalendar/core/locales/de";
-  import iCalendarPlugin from "@fullcalendar/icalendar";
+    import { Calendar, type CalendarOptions } from "@fullcalendar/core";
+    import dayGridPlugin from "@fullcalendar/daygrid";
+    import timeGridPlugin from "@fullcalendar/timegrid";
+    import interactionPlugin from "@fullcalendar/interaction";
+    import listPlugin from "@fullcalendar/list";
+    import deLocale from "@fullcalendar/core/locales/de";
+    import iCalendarPlugin from "@fullcalendar/icalendar";
 
-  const element = document.getElementById("calendar")!;
+  import { DateTime } from "luxon";
+    const element = document.getElementById("calendar")!;
 
-  const events = await (await fetch("/calendar/index.json")).json();
-  console.log(events);
+    const events = await (await fetch("/calendar/index.json")).json();
+    console.log(events);
 
-  const options: CalendarOptions = {
-    initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
-    plugins: [
-      dayGridPlugin,
-      timeGridPlugin,
-      interactionPlugin,
-      listPlugin,
-      iCalendarPlugin,
-    ],
-    events: events.map((e) => ({
-      id: e.id,
-      title: e.title,
-      start: e.starts_at,
-      end: e.ends_at,
-      url: e.externalUrl,
-    })),
-    locale: "de",
-    locales: [deLocale],
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listYear",
-    },
-    eventTimeFormat: {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    },
-    buttonText: {
-      today: "Heute",
-      year: "Jahr",
-      month: "Monat",
-      week: "Woche",
-      day: "Tag",
-      list: "Liste",
-    },
-    selectable: true,
-    lazyFetching: true,
-    contentHeight: "auto",
-  };
+    const options: CalendarOptions = {
+      initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
+      plugins: [
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin,
+        listPlugin,
+        iCalendarPlugin,
+      ],
+      events: events.map((e) => ({
+        id: e.id,
+        title: e.title,
+        start: e.starts_at,
+        end: e.ends_at,
+        url: `/events/${e.id}`,
+      })),
+      locale: "de",
+      locales: [deLocale],
+      headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay,listYear",
+      },
+      eventTimeFormat: {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      },
+      buttonText: {
+        today: "Heute",
+        year: "Jahr",
+        month: "Monat",
+        week: "Woche",
+        day: "Tag",
+        list: "Liste",
+      },
+      selectable: true,
+      lazyFetching: true,
+      contentHeight: "auto",
+    };
 
-  const calendar = new Calendar(element, options);
-  calendar.render();
-  const mobileWidth = 768;
-  window.addEventListener("resize", () => {
-    // Switch views based on screen size
-    if (window.innerWidth < mobileWidth && calendar.view.type !== "listYear") {
-      calendar.changeView("listYear");
-    } else if (
-      window.innerWidth >= mobileWidth &&
-      calendar.view.type !== "dayGridMonth"
-    ) {
-      calendar.changeView("dayGridMonth");
-    }
-  });
+    const calendar = new Calendar(element, options);
+    calendar.render();
+    const mobileWidth = 768;
+    window.addEventListener("resize", () => {
+      // Switch views based on screen size
+      if (window.innerWidth < mobileWidth && calendar.view.type !== "listYear") {
+        calendar.changeView("listYear");
+      } else if (
+        window.innerWidth >= mobileWidth &&
+        calendar.view.type !== "dayGridMonth"
+      ) {
+        calendar.changeView("dayGridMonth");
+      }
+    });
 </script>
 
 <style is:global>

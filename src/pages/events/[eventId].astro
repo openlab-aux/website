@@ -6,10 +6,7 @@ import { getEvents } from "../../util/event";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
-
 const { eventId } = Astro.params;
-
-const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
 
 const event = (await getEvents()).find((e) => e.id == eventId)!;
 
@@ -19,21 +16,15 @@ function renderDate(iso: string, locale: string) {
     .toLocaleString(DateTime.DATETIME_FULL);
 }
 
-let imageSrc = fallbackImage.src;
-if (event.image) {
-  imageSrc = `${DIRECTUS_URL}/assets/${event.image}`;
-}
 ---
 
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
     {
-      event.imageUrl && (
         <img
-          src={event.imageUrl}
+          src={event.imageUrl ?? fallbackImage.src}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
-      )
     }
     <h1>
       {event.title}

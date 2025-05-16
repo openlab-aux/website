@@ -34,7 +34,7 @@ function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
     imageUrl: event.image
       ? `${getSecret("DIRECTUS_URL")}/assets/${event.image}`
       : undefined,
-    externalUrl: event.url ? event.url : undefined,
+    externalUrl: `/events/${event.id}`,
     recurring: event.recurring ?? undefined,
   };
 }

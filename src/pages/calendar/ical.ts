@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
 import { createEvents, type EventAttributes } from "ics";
 import { getEvents, type CalendarEvent } from "../../util/event";
-import { DateTime } from "luxon";
 
 function mapDirectus(
   serverUrl: string,
