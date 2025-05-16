@@ -28,7 +28,7 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
       class="navbar bg-base-100/50 sticky top-0 z-50 w-screen shadow-xl backdrop-blur-sm"
     >
       <div class="navbar-start">
-        <div class="hidden md:inline px-5">
+        <div class="hidden px-5 md:inline">
           <strong>OpenLab Augsburg e.V.</strong>
         </div>
         <div class="dropdown dropdown-start md:hidden">
@@ -52,12 +52,18 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
             class="menu menu-sm dropdown-content bg-base-100 not-prose sticky z-50 w-64 rounded-t-none p-2 drop-shadow-xl"
           >
             <li><a class="btn btn-ghost justify-start" href="/wo">Wo?!</a></li>
-            <li><a class="btn btn-ghost justify-start" href="/calendar">Kalender</a></li>
-            <li><a class="btn btn-ghost justify-start" href="/tools">Tools</a></li>
-         </ul>
+            <li>
+              <a class="btn btn-ghost justify-start" href="/calendar"
+                >Kalender</a
+              >
+            </li>
+            <li>
+              <a class="btn btn-ghost justify-start" href="/tools">Tools</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="navbar-end inline md:hidden px-10">
+      <div class="navbar-end inline px-10 md:hidden">
         <strong>OpenLab&nbsp;Augsburg</strong>
       </div>
       <div class="navbar-end hidden px-3 md:flex">
