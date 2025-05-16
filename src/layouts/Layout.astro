@@ -28,8 +28,11 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
       class="navbar bg-base-100/50 sticky top-0 z-50 w-screen shadow-xl backdrop-blur-sm"
     >
       <div class="navbar-start">
-        <div class="dropdown dropdown-start">
-          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <div class="hidden md:inline px-5">
+          <strong>OpenLab Augsburg e.V.</strong>
+        </div>
+        <div class="dropdown dropdown-start md:hidden">
+          <div tabindex="0" role="button" class="btn btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
@@ -48,84 +51,20 @@ title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-100 not-prose sticky z-50 w-64 rounded-t-none p-2 drop-shadow-xl"
           >
-            <li>
-              <a
-                class="btn btn-ghost justify-start"
-                href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
-              >
-                <Icon name="mdi:link-variant" size="20" />
-                Chat
-              </a>
-            </li>
-            <li>
-              <a
-                class="btn btn-ghost justify-start"
-                href="https://wiki.openlab-augsburg.de"
-              >
-                <Icon name="mdi:link-variant" size="20" />
-                Wiki
-              </a>
-            </li>
-            <li>
-              <a class="btn btn-ghost justify-start" href="https://ola.lol">
-                <Icon name="mdi:link-variant" size="20" />
-                Cryptpad
-              </a>
-            </li>
-            <a
-              class="btn btn-ghost justify-start"
-              href="https://auth.openlab-augsburg.de"
-            >
-              <Icon name="mdi:lock" size="20" />
-              Member Dashboard
-            </a>
-          </ul>
+            <li><a class="btn btn-ghost justify-start" href="/wo">Wo?!</a></li>
+            <li><a class="btn btn-ghost justify-start" href="/calendar">Kalender</a></li>
+            <li><a class="btn btn-ghost justify-start" href="/tools">Tools</a></li>
+         </ul>
         </div>
       </div>
-      <div class="navbar-end hidden px-3 lg:flex">
+      <div class="navbar-end inline md:hidden px-10">
+        <strong>OpenLab&nbsp;Augsburg</strong>
+      </div>
+      <div class="navbar-end hidden px-3 md:flex">
         <ul class="menu menu-horizontal m-0 p-0">
           <li><a class="btn btn-ghost" href="/wo">Wo?!</a></li>
           <li><a class="btn btn-ghost" href="/calendar">Kalender</a></li>
-          <li>
-            <details>
-              <summary class="btn btn-ghost">Tools</summary>
-              <ul
-                class="bg-base-100 not-prose sticky right-1.5 z-50 w-fit rounded-t-none p-2 drop-shadow-xl"
-              >
-                <li>
-                  <a
-                    class="btn btn-ghost justify-start"
-                    href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
-                  >
-                    <Icon name="mdi:link-variant" size="20" />
-                    Chat
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="btn btn-ghost justify-start"
-                    href="https://wiki.openlab-augsburg.de"
-                  >
-                    <Icon name="mdi:link-variant" size="20" />
-                    Wiki
-                  </a>
-                </li>
-                <li>
-                  <a class="btn btn-ghost justify-start" href="https://ola.lol">
-                    <Icon name="mdi:link-variant" size="20" />
-                    Cryptpad
-                  </a>
-                </li>
-                <a
-                  class="btn btn-ghost justify-start"
-                  href="https://auth.openlab-augsburg.de"
-                >
-                  <Icon name="mdi:lock" size="20" />
-                  Member Dashboard
-                </a>
-              </ul>
-            </details>
-          </li>
+          <li><a class="btn btn-ghost" href="/tools">Tools</a></li>
         </ul>
       </div>
     </nav>
