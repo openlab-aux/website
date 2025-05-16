@@ -1,5 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { markdown } from "@astropub/md";
+
+import { DateTime } from "luxon";
+import { getRawEvents } from "../../util/directus";
+import { getEvents } from "../../util/event";
+
+const events = await getEvents();
 ---
 
 <Layout>
@@ -22,7 +29,12 @@ import Layout from "../../layouts/Layout.astro";
   import deLocale from "@fullcalendar/core/locales/de";
   import iCalendarPlugin from "@fullcalendar/icalendar";
 
+  import { DateTime } from "luxon";
   const element = document.getElementById("calendar")!;
+
+  const events = await (await fetch("/calendar/index.json")).json();
+  console.log(events);
+
   const options: CalendarOptions = {
     initialView: window.innerWidth < 768 ? "listYear" : "dayGridMonth",
     plugins: [
@@ -32,10 +44,13 @@ import Layout from "../../layouts/Layout.astro";
       listPlugin,
       iCalendarPlugin,
     ],
-    events: {
-      url: "/calendar/ical",
-      format: "ics",
-    },
+    events: events.map((e) => ({
+      id: e.id,
+      title: e.title,
+      start: e.starts_at,
+      end: e.ends_at,
+      url: `/events/${e.id}`,
+    })),
     locale: "de",
     locales: [deLocale],
     headerToolbar: {
@@ -82,5 +97,9 @@ import Layout from "../../layouts/Layout.astro";
 
   .fc-toolbar {
     @apply max-md:flex-col! max-md:gap-2!;
+  }
+
+  .fc-cell-shaded {
+    @apply bg-base-300!;
   }
 </style>

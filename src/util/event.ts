@@ -18,6 +18,7 @@ export interface CalendarEvent {
   externalUrl?: string;
 
   parent?: CalendarEvent;
+  recurring?: string;
 }
 
 function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
@@ -33,7 +34,8 @@ function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
     imageUrl: event.image
       ? `${getSecret("DIRECTUS_URL")}/assets/${event.image}`
       : undefined,
-    externalUrl: event.url ? event.url : undefined,
+    externalUrl: `/events/${event.id}`,
+    recurring: event.recurring ?? undefined,
   };
 }
 
@@ -146,8 +148,5 @@ export async function getEvents(): Promise<CalendarEvent[]> {
         return -1;
       }
       return 1;
-    })
-    .filter((event) => {
-      return event.starts_at > DateTime.now().minus({ hours: 12 });
     });
 }

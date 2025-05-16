@@ -2,36 +2,27 @@
 import Layout from "../../layouts/Layout.astro";
 import fallbackImage from "../../assets/calendar_fallback.jpeg";
 
-import { getRawCalendarEvents } from "../../util/directus";
+import { getEvents } from "../../util/event";
 import { Icon } from "astro-icon/components";
 import { DateTime } from "luxon";
 import { markdown } from "@astropub/md";
-import { getSecret } from "astro:env/server";
-
 const { eventId } = Astro.params;
 
-const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
-
-const event = (await getRawCalendarEvents()).find((e) => e.id == eventId)!;
+const event = (await getEvents()).find((e) => e.id == eventId)!;
 
 function renderDate(iso: string, locale: string) {
   return DateTime.fromISO(iso)
     .setLocale(locale)
     .toLocaleString(DateTime.DATETIME_FULL);
 }
-
-let imageSrc = fallbackImage.src;
-if (event.image) {
-  imageSrc = `${DIRECTUS_URL}/assets/${event.image}`;
-}
 ---
 
 <Layout title="OpenLab Augsburg e.V. - Event">
   <div class="m-auto mb-10 w-11/12 max-w-prose">
     {
-      event.image && (
+      (
         <img
-          src={imageSrc}
+          src={event.imageUrl ?? fallbackImage.src}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
       )
@@ -68,11 +59,11 @@ if (event.image) {
         <div>{event.public ? "Ja" : "Nein"}</div>
 
         {
-          event.url && (
+          event.externalUrl && (
             <>
               <Icon name="mdi:link" size={30} />
               <strong>Mehr Informationen</strong>
-              <a href={event.url} class="link">
+              <a href={event.externalUrl} class="link">
                 Externer Link
               </a>
             </>
