@@ -28,9 +28,10 @@ function eventFromDTO(event: CalendarEventDTO): CalendarEvent {
     description: event.description,
     public: event.public,
     location: event.location,
-    starts_at: DateTime.fromISO(event.starts_at),
-
-    ends_at: event.ends_at ? DateTime.fromISO(event.ends_at) : undefined,
+    starts_at: DateTime.fromISO(event.starts_at).setZone("Europe/Berlin"),
+    ends_at: event.ends_at
+      ? DateTime.fromISO(event.ends_at).setZone("Europe/Berlin")
+      : undefined,
     imageUrl: event.image
       ? `${getSecret("DIRECTUS_URL")}/assets/${event.image}`
       : undefined,
