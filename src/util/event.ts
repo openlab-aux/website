@@ -50,7 +50,7 @@ function moveEvent(event: CalendarEvent, newDate: DateTime): CalendarEvent {
   const res = {
     ...event,
     starts_at: event.starts_at.set(newDateObj),
-    id: event.id + event.starts_at.toISODate(),
+    id: event.id + "_" + newDate.toISODate(),
   };
 
   if (event.ends_at) {
@@ -59,6 +59,9 @@ function moveEvent(event: CalendarEvent, newDate: DateTime): CalendarEvent {
       .toObject();
     res.ends_at = res.starts_at.plus(duration);
   }
+
+  console.log(event);
+  console.log(res);
 
   return res;
 }
