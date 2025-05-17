@@ -95,11 +95,13 @@ const events = await getEvents();
 <style is:global>
   @reference "../../styles/global.css";
 
-  .fc-toolbar {
-    @apply max-md:flex-col! max-md:gap-2!;
+  :root {
+    --fc-page-bg-color: var(--color-base-300);
+    --fc-list-event-hover-bg-color: var(--color-base-100);
+    --fc-border-color: var(--color-100);
   }
 
-  .fc-cell-shaded {
-    @apply bg-base-300!;
+  .fc-toolbar {
+    @apply max-md:flex-col! max-md:gap-2!;
   }
 </style>
