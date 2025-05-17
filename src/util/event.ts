@@ -60,9 +60,6 @@ function moveEvent(event: CalendarEvent, newDate: DateTime): CalendarEvent {
     res.ends_at = res.starts_at.plus(duration);
   }
 
-  console.log(event);
-  console.log(res);
-
   return res;
 }
 
