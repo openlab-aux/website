@@ -137,6 +137,7 @@ export async function getEvents(): Promise<CalendarEvent[]> {
   const rawEvents = await getRawEvents();
 
   return rawEvents
+    // "Unfold" recurring events
     .reduce((acc: CalendarEvent[], event: CalendarEventDTO) => {
       if (event.recurring) {
         return [...acc, ...getRecurrences(event)];
@@ -144,10 +145,13 @@ export async function getEvents(): Promise<CalendarEvent[]> {
         return [...acc, eventFromDTO(event)];
       }
     }, [])
+    // Sort events by start date
     .sort((a, b) => {
       if (a.starts_at < b.starts_at) {
         return -1;
       }
       return 1;
-    });
+    })
+    // Only display events starting at first of this month.
+    .filter((e) => e.starts_at > DateTime.now().set({day: 1, hour: 0, minute: 0, second: 0, millisecond: 0}));
 }
