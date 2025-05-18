@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Layout title="tools">
+  <div class="mx-10 my-10 w-auto max-w-prose md:mx-auto">
+    <h2>Tools</h2>
+
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
+      <div class="card bg-base-100 card-lg w-auto shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Wiki</h2>
+          <p>
+            Hier findest du mehr Informationen zu Infrastruktur und Projekten in
+            unserem Space. Die Wiki wird von unseren Mitgliedern gepflegt.
+          </p>
+          <div class="card-actions justify-end">
+            <a href="https://wiki.openlab-augsburg.de" class="btn btn-md">
+              <Icon name="mdi:link-variant" size="20" />
+              Zur Wiki
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 card-lg w-auto shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Cryptpad</h2>
+          <p>
+            Wir nutzen Cryptpad zum sicheren gemeinsamen Bearbeiten von Dateien
+            und um datensparsame Umfragen zu erstellen und zu teilen.
+          </p>
+          <div class="card-actions justify-end">
+            <a href="https://ola.lol" class="btn btn-md">
+              <Icon name="mdi:link-variant" size="20" />
+              Zu CryptPad
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 card-lg w-auto shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Chat</h2>
+          <p>
+            Als Chat-Platform nutzen wir Matrix. Auf unserer Wiki-Seite findest
+            du alle Infos, die du brauchst, um dir einen Account und
+            mitzumachen.
+          </p>
+          <div class="card-actions justify-end">
+            <a
+              href="https://wiki.openlab-augsburg.de/de/Space/Infrastruktur/chat"
+              class="btn btn-md"
+            >
+              <Icon name="mdi:link-variant" size="20" />
+              Mehr Infos
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 card-lg w-auto shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Mitgliederportal</h2>
+          <p>
+            Einige unserer Tools stellen wir nur unseren Mitgliedern zur
+            Verfügung. Diese findest Du auf einen Blick im Mitgliederportal.
+          </p>
+          <div class="card-actions justify-end">
+            <a href="https://auth.openlab-augsburg.de" class="btn btn-md">
+              <Icon name="mdi:lock" size="20" />
+
+              Zum Mitgliederportal
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

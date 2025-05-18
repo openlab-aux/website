@@ -60,9 +60,6 @@ function moveEvent(event: CalendarEvent, newDate: DateTime): CalendarEvent {
     res.ends_at = res.starts_at.plus(duration);
   }
 
-  console.log(event);
-  console.log(res);
-
   return res;
 }
 
@@ -139,18 +136,34 @@ function getRecurrences(event: CalendarEventDTO): CalendarEvent[] {
 export async function getEvents(): Promise<CalendarEvent[]> {
   const rawEvents = await getRawEvents();
 
-  return rawEvents
-    .reduce((acc: CalendarEvent[], event: CalendarEventDTO) => {
-      if (event.recurring) {
-        return [...acc, ...getRecurrences(event)];
-      } else {
-        return [...acc, eventFromDTO(event)];
-      }
-    }, [])
-    .sort((a, b) => {
-      if (a.starts_at < b.starts_at) {
-        return -1;
-      }
-      return 1;
-    });
+  return (
+    rawEvents
+      // "Unfold" recurring events
+      .reduce((acc: CalendarEvent[], event: CalendarEventDTO) => {
+        if (event.recurring) {
+          return [...acc, ...getRecurrences(event)];
+        } else {
+          return [...acc, eventFromDTO(event)];
+        }
+      }, [])
+      // Sort events by start date
+      .sort((a, b) => {
+        if (a.starts_at < b.starts_at) {
+          return -1;
+        }
+        return 1;
+      })
+      // Only display events starting at first of this month.
+      .filter(
+        (e) =>
+          e.starts_at >
+          DateTime.now().set({
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          }),
+      )
+  );
 }
