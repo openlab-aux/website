@@ -1,7 +1,28 @@
 import { DateTime, type DateObjectUnits } from "luxon";
-import { getRawEvents, type CalendarEventDTO } from "./directus";
+import { directusClient } from "./directus";
 import rrule from "rrule";
 import { getSecret } from "astro:env/server";
+import { readItems } from "@directus/sdk";
+
+export interface CalendarEventDTO {
+  id: string;
+  status: "draft" | "published" | "archived";
+  title: string;
+  description: string;
+  image: string | null;
+  location: string;
+  public: boolean;
+  starts_at: string;
+  ends_at: string | null;
+  url: string | null;
+  recurring: string | null;
+  cancellations:
+    | {
+        cancelled_on: string;
+        moved_to: string | null;
+      }[]
+    | null;
+}
 
 export interface CalendarEvent {
   id: string;
@@ -19,6 +40,18 @@ export interface CalendarEvent {
 
   parent?: CalendarEvent;
   recurring?: string;
+}
+
+export async function getRawEvents(): Promise<CalendarEventDTO[]> {
+  const res = (await directusClient.request(
+    readItems("Calendar", {
+      filter: {
+        status: { _eq: "published" },
+      },
+    }),
+  )) as CalendarEventDTO[];
+
+  return res;
 }
 
 function eventFromDTO(event: CalendarEventDTO): CalendarEvent {

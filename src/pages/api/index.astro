@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Layout title="tools">
+  <div class="mx-10 my-10 w-auto max-w-prose md:mx-auto">
+    <h2>API</h2>
+
+    <p>
+      Einige Informationen über unseren Hackspace stellen wir auch
+      maschinenlesbar zur Verfügung. Wir folgen dabei dem populären Standard <a
+        href="https://spaceapi.io">SpaceAPI</a
+      >.
+    </p>
+
+    <a class="btn btn-primary flex justify-center" href="/api/api.json">
+      <tt>https://api.openlab-augsburg.de/api/api.json</tt>
+    </a>
+  </div>
+</Layout>
