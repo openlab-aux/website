@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.2.1",
+    "@astrojs/rss": "^4.0.11",
     "@astrojs/svelte": "^7.0.13",
     "@astropub/md": "^1.0.0",
     "@aumetra/hackspace-status-svelte": "^0.0.3",
