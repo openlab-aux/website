@@ -5,8 +5,9 @@ import rrule from "rrule";
 import { v4 as uuidv4 } from "uuid";
 
 const DIRECTUS_URL = getSecret("DIRECTUS_URL")!;
-const DIRECTUS_TOKEN = getSecret("DIRECTUS_TOKEN") || "LOLNEIN";
+const DIRECTUS_TOKEN = getSecret("DIRECTUS_TOKEN");
 
-export const directusClient = createDirectus(DIRECTUS_URL)
-  .with(rest())
-  .with(staticToken(DIRECTUS_TOKEN));
+export let directusClient = createDirectus(DIRECTUS_URL).with(rest());
+if (DIRECTUS_TOKEN) {
+  directusClient = directusClient.with(staticToken(DIRECTUS_TOKEN));
+}

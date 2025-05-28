@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { markdown } from "@astropub/md";
+
+import { DateTime } from "luxon";
+import { getBlogPosts } from "../util/blog";
+
+const posts = await getBlogPosts();
+---
+
+<Layout title="OpenLab Augsburg e.V. - Blog">
+<div class="container mx-auto">
+  <div class="grid grid-cols-2 gap-8">
+    { posts.map((post) => (
+
+    <a class="no-underline hover:underline" href={post.externalUrl}>
+      <div class="card card-border">
+        <div class="flex flex-col">
+          <!-- Fix ... overflow -->
+          {
+          post.banner && <>
+                <img class="max-h-[250px] p-0 m-0 w-full object-cover rounded-xl" src={post.banner}></img>
+          </>
+          }
+          <div class="card-body">
+              <h3 class="card-title truncate text-ellipsis text-xl">{post.title}</h5>
+              </h5 class="text-lg truncate">{post.subtitle}</h5>
+          </div>
+
+        </div>
+      </div>
+    </a>
+    )) }
+  </div>
+
+</div>
+</Layout>
