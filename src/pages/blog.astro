@@ -8,7 +8,7 @@ const posts = await getBlogPosts();
 
 <Layout title="OpenLab Augsburg e.V. - Blog">
   <div class="container mx-auto">
-    <div class="grid grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 gap-8 px-10 md:grid-cols-2 lg:grid-cols-2">
       {
         posts.map((post) => (
           <a class="no-underline hover:underline" href={post.externalUrl}>
@@ -17,7 +17,7 @@ const posts = await getBlogPosts();
                 {post.banner && (
                   <img
                     class="m-0 max-h-[250px] w-full rounded-xl object-cover p-0"
-                    src="{post.banner}"
+                    src={post.banner}
                   />
                 )}
                 <div class="card-body">
