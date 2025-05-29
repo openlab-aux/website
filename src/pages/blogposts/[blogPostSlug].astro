@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import fallbackImage from "../../assets/calendar_fallback.jpeg";
+
+import { getBlogPosts } from "../../util/blog";
+import { Icon } from "astro-icon/components";
+import { DateTime } from "luxon";
+import { markdown } from "@astropub/md";
+const { blogPostSlug } = Astro.params;
+
+const blogPost = (await getBlogPosts()).find((e) => e.slug == blogPostSlug)!;
+
+function renderDate(iso: string, locale: string) {
+  return DateTime.fromISO(iso)
+    .setLocale(locale)
+    .toLocaleString(DateTime.DATETIME_FULL);
+}
+---
+
+<Layout title="OpenLab Augsburg e.V. - Event">
+  <div class="container m-auto mb-10">
+    {
+      (
+        <img
+          src={blogPost.imageUrl ?? fallbackImage.src}
+          class="max-h-[250px] w-full rounded-xl object-cover"
+        />
+      )
+    }
+    <h1>
+      {blogPost.title}
+    </h1>
+
+    <div class="card bg-base-200 card-lg shadow-sm">
+      <div class="card-body m-auto flex w-full flex-row justify-evenly">
+        <div class="flex flex-row items-start gap-2">
+          <Icon name="mdi:calendar" size={30} />
+          <strong class="">Erstellt am</strong>
+          <div>{renderDate(blogPost.createdAt, "de")}</div>
+        </div>
+        |
+        <div class="flex flex-row items-start gap-2">
+          <Icon name="mdi:calendar" size={30} />
+          <strong class="">Editiert am</strong>
+          <div>{renderDate(blogPost.updatedAt, "de")}</div>
+        </div>
+      </div>
+    </div>
+    <div set:html={await markdown(blogPost.content)} />
+  </div>
+</Layout>
