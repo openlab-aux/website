@@ -22,7 +22,7 @@ function renderDate(iso: string, locale: string) {
     {
       (
         <img
-          src={blogPost.imageUrl ?? fallbackImage.src}
+          src={blogPost.banner ?? fallbackImage.src}
           class="max-h-[250px] w-full rounded-xl object-cover"
         />
       )
