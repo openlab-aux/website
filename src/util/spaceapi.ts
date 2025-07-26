@@ -7,6 +7,7 @@ export interface SpaceApiDTO {
 
 export interface SpaceApi {
   api_compatibility: string[];
+  api: string;
   space: string;
   logo: string;
   url: string;
@@ -30,19 +31,32 @@ export async function getSpaceApi(): Promise<SpaceApi> {
     .request<SpaceApiDTO>(readSingleton("SpaceAPI"))
     .then((dto) => {
       return {
-        api_compatibility: ["15"],
+        api: "0.13",
+        api_compatibility: ["14", "15"],
         space: "OpenLab Augsburg e.V.",
         url: "https://openlab-augsburg.de",
-        logo: "https://raw.githubusercontent.com/openlab-aux/design/refs/heads/master/logo/png-files/logo-colour.png",
+        logo: "https://cms.openlab-augsburg.de/assets/f500c2b9-8df1-4cce-bc95-65db756cb351.png",
         state: {
           open: dto.SpaceStatus !== "CLOSED",
+          icon: {
+            open: "https://cms.openlab-augsburg.de/assets/5acb8735-aef6-434b-afae-7d51fc1ebdd5.png",
+            closed:
+              "https://cms.openlab-augsburg.de/assets/c62c0dac-cc57-4c1e-b111-93c3b80fe3cb.png",
+          },
+        },
+        location: {
+          address: "Bäckergasse 32, Augsburg, Germany",
+          lat: 48.362644,
+          lon: 10.902595,
+          timezone: "Europe/Berlin",
         },
         contact: {
-          email: "vorstand@openlab-augsburg.de",
+          email: "kontakt@openlab-augsburg.de",
           phone: "+4982157089944",
           mastodon: "@OpenLabAugsburg@chaos.social",
           matrix: "#alle:matrix.openlab-augsburg.de",
         },
+        issue_report_channels: ["email"],
       };
     });
 }
