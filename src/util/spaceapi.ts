@@ -7,6 +7,7 @@ export interface SpaceApiDTO {
 
 export interface SpaceApi {
   api_compatibility: string[];
+  api: string;
   space: string;
   logo: string;
   url: string;
@@ -30,19 +31,31 @@ export async function getSpaceApi(): Promise<SpaceApi> {
     .request<SpaceApiDTO>(readSingleton("SpaceAPI"))
     .then((dto) => {
       return {
-        api_compatibility: ["15"],
+        api: "0.13",
+        api_compatibility: ["14", "15"],
         space: "OpenLab Augsburg e.V.",
         url: "https://openlab-augsburg.de",
-        logo: "https://raw.githubusercontent.com/openlab-aux/design/refs/heads/master/logo/png-files/logo-colour.png",
+        logo: "https://www.openlab-augsburg.de/static/logo-colour.png",
         state: {
           open: dto.SpaceStatus !== "CLOSED",
+          icon: {
+            open: "https://www.openlab-augsburg.de/static/open.png",
+            closed: "https://www.openlab-augsburg.de/static/closed.png",
+          },
+        },
+        location: {
+          address: "Bäckergasse 32, Augsburg, Germany",
+          lat: 48.362644,
+          lon: 10.902595,
+          timezone: "Europe/Berlin",
         },
         contact: {
-          email: "vorstand@openlab-augsburg.de",
+          email: "kontakt@openlab-augsburg.de",
           phone: "+4982157089944",
           mastodon: "@OpenLabAugsburg@chaos.social",
           matrix: "#alle:matrix.openlab-augsburg.de",
         },
+        issue_report_channels: ["email"],
       };
     });
 }
