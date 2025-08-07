@@ -28,7 +28,7 @@ export interface SpaceApiState {
   icon: {
     open: string;
     closed: string;
-  }
+  };
   lastchange: number;
 }
 
@@ -40,15 +40,21 @@ export interface SpaceApiContact {
 }
 
 export async function getSpaceApi(): Promise<SpaceApi> {
-  const dto = await directusClient.request<SpaceApiDTO>(readSingleton("SpaceAPI"))
-  const lastchanges = await directusClient.request(readActivities({
-    collection: "SpaceAPI",
-    action: "update",
-    fields: ["timestamp"],
-    limit: 1,
-    sort: ["-timestamp"],
-  }))
-  const lastchange_timestamp = DateTime.fromISO(lastchanges[0].timestamp).toUnixInteger();
+  const dto = await directusClient.request<SpaceApiDTO>(
+    readSingleton("SpaceAPI"),
+  );
+  const lastchanges = await directusClient.request(
+    readActivities({
+      collection: "SpaceAPI",
+      action: "update",
+      fields: ["timestamp"],
+      limit: 1,
+      sort: ["-timestamp"],
+    }),
+  );
+  const lastchange_timestamp = DateTime.fromISO(
+    lastchanges[0].timestamp,
+  ).toUnixInteger();
 
   return {
     api: "0.13",
