@@ -6,7 +6,8 @@ function mapDirectus(
   serverUrl: string,
   directusEvent: CalendarEvent,
 ): EventAttributes {
-  const baseValue = {
+  const baseValue: Partial<EventAttributes> = {
+    uid: directusEvent.id,
     title: directusEvent.title,
     description: directusEvent.description,
     location: directusEvent.location,
